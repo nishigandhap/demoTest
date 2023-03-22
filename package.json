@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cypress run cypress/e2e/TestPage/*.js --headed --env allure=true",
+    "allure:report": "allure generate allure-results --clean -o allure-report",
+    "reportTest": "cypress run cypress/e2e/TestPage/*.js --headed --env allure=true && allure generate allure-results --clean -o allure-report"
   },
   "author": "",
   "license": "ISC",
