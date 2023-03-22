@@ -1,0 +1,8 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"passed","Wed Mar 22 15:00:35 IST 2023","Wed Mar 22 15:00:41 IST 2023","5902","","My test suite","","","","Performance glitch",""
+"skipped","Wed Mar 22 15:00:35 IST 2023","Wed Mar 22 15:00:35 IST 2023","1","","My test suite","","","","Problem user",""
+"passed","Wed Mar 22 15:00:34 IST 2023","Wed Mar 22 15:00:35 IST 2023","804","","My test suite","","","","Validate for locked user and verifuy error message",""
+"passed","Wed Mar 22 15:00:41 IST 2023","Wed Mar 22 15:00:41 IST 2023","839","","My test suite","","","","Incorrect username and verify error message",""
+"passed","Wed Mar 22 15:00:33 IST 2023","Wed Mar 22 15:00:34 IST 2023","990","","My test suite","","","","Validate the provided logins are correct and login is successfull",""
+"passed","Wed Mar 22 15:00:25 IST 2023","Wed Mar 22 15:00:27 IST 2023","2495","","My test suite","","","","E2E flow from adding product till checkout",""
+"passed","Wed Mar 22 15:00:27 IST 2023","Wed Mar 22 15:00:28 IST 2023","937","","My test suite","","","","Filters products by price in ascending order",""
