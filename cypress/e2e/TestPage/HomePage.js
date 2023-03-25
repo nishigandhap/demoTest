@@ -1,21 +1,21 @@
 
 /// <reference types = "Cypress"/>
 
-import PageModel from "../../PageModel/PageModel"
+import PageModel from "../../PageModel/HomePageModel"
 import LoginPageModel from "../../PageModel/LoginPageModel"
 
 const inventoryItem = new PageModel()
 const loginDetails = new LoginPageModel()
 
-describe("My test suite",  ()=> {
+describe("My home page suite",  ()=> {
 
     beforeEach(function () {
         cy.visit(Cypress.env("url"))
+        loginDetails.loginDetails('standard')
+        loginDetails.verifyTitleOfPage()
     })
 
     it('E2E flow from adding product till checkout',  ()=> {
-        loginDetails.loginDetails('standard')
-        loginDetails.verifyTitleOfPage()
         inventoryItem.expectInventoryItemName('Sauce Labs Bike Light')
         inventoryItem.addInventoryItemToCart()
         inventoryItem.expectCartLinkPage()
@@ -27,8 +27,7 @@ describe("My test suite",  ()=> {
     })
 
     it('Filters products by price in ascending order',  ()=> {
-        loginDetails.loginDetails('standard')
-        loginDetails.verifyTitleOfPage()
         inventoryItem.verifyPriceListIsAscending()
     })
+
 })

@@ -5,7 +5,7 @@ import LoginPageModel from "../../PageModel/LoginPageModel"
 
 const loginDetails = new LoginPageModel()
 
-describe("My test suite", function () {
+describe("My login page suite", function () {
     beforeEach(function () {
         cy.visit(Cypress.env("url"))
     })

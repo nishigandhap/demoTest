@@ -13,18 +13,6 @@
 // Cypress.Commands.add('login', (email, password) => { ... })
 
 
-Cypress.Commands.add('insertUserName', (userName) => {
-    cy.fixture('login').then(() => {
-        cy.get('#user-name').should('be.enabled').type(userName)
-    })
-})
-
-Cypress.Commands.add('insertPassword', (password) => {
-    cy.fixture('login').then(() => {
-        cy.get('#password').should('be.visible').type(password)
-    })
-})
-
 const compareSnapshotCommand = require('cypress-image-diff-js/dist/command');
 compareSnapshotCommand();
 

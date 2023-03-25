@@ -2,31 +2,36 @@
 class LoginDetails {
 
     elements = {
-        submitButton: () => cy.get("#login-button")
+
+        insertUserName: () => cy.get('#user-name'),
+        insertPassword: () => cy.get('#password'),
+        submitButton: () => cy.get("#login-button"),
+        errorMessage:() => cy.get('.error-message-container.error'),
+        titleForPage: ()=> cy.get('.title')
     }
 
     loginDetails(userType) {
         cy.fixture('login').then((el) => {
             switch (userType) {
                 case 'standard':
-                    cy.insertUserName(el.standard)
-                    cy.insertPassword(el.password)
+                    this.elements.insertUserName().type(el.standard)
+                    this.elements.insertPassword().type(el.password)
                     break
                 case 'locked':
-                    cy.insertUserName(el.locked)
-                    cy.insertPassword(el.password)
+                    this.elements.insertUserName().type(el.locked)
+                    this.elements.insertPassword().type(el.password)
                     break
                 case 'problem':
-                    cy.insertUserName(el.problem)
-                    cy.insertPassword(el.password)
+                    this.elements.insertUserName().type(el.problem)
+                    this.elements.insertPassword().type(el.password)
                     break
                 case 'wrongusername':
-                    cy.insertUserName(el.wrongusername)
-                    cy.insertPassword(el.password)
+                    this.elements.insertUserName().type(el.wrongusername)
+                    this.elements.insertPassword().type(el.password)
                     break
                 case 'glitch':
-                    cy.insertUserName(el.glitch)
-                    cy.insertPassword(el.password)
+                    this.elements.insertUserName().type(el.glitch)
+                    this.elements.insertPassword().type(el.password)
                     break
             }
         })
@@ -38,12 +43,12 @@ class LoginDetails {
 
     verifyTitleOfPage() {
         this.clickSubmitButton()
-        cy.contains('Products').should('be.visible')
+        this.elements.titleForPage().contains('Products').should('be.visible')
     }
 
     errorMessageForLockedUser() {
         this.clickSubmitButton()
-        cy.contains('Epic sadface: Sorry, this user has been locked out.').should('be.visible')
+        this.elements.errorMessage().should('have.text','Epic sadface: Sorry, this user has been locked out.')
     }
 
     invalidImageForHomePage() {
@@ -54,12 +59,12 @@ class LoginDetails {
 
     errorMessageForWrongUserName() {
         this.clickSubmitButton()
-        cy.contains('Epic sadface: Username and password do not match any user in this service').should('be.visible')
+        this.elements.errorMessage().should('have.text', 'Epic sadface: Username and password do not match any user in this service')
     }
 
     performanceGlitch() {
         this.clickSubmitButton()
-        cy.contains('Products').should('be.visible')
+        this.elements.titleForPage().contains('Products').should('be.visible')
     }
 
 }
