@@ -30,6 +30,6 @@
         }
       }
     ],
-    "title": "Typeform created via a Cypress test",
+    "title": "Dummy form  created via a Cypress test",
     "type": "quiz"
   }
