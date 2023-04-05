@@ -1,13 +1,16 @@
 /// <reference types = 'cypress'/>
 
 import sampleForm from '../../fixtures/sampleForm.json'
+import updateForm from '../../fixtures/updateTitle.json'
 
 const apiUrl = `${Cypress.env('Api_url')}`
 const authorization = ` Bearer ${Cypress.env('apiToken')}`
 
 
-
 describe('APi test suite', () => {
+    beforeEach(() => {
+        cy.cleanUpBeforeStart()
+    })
 
     it('Get forms', () => {
         cy.request({
@@ -21,16 +24,37 @@ describe('APi test suite', () => {
     })
 
     it('Create a form', () => {
-        cy.request({
-            method: 'POST',
-            url: `${apiUrl}forms`,
-            headers: { authorization },
-            body: sampleForm
-        }).should(({ status, body, headers }) => {
-            expect(status).to.eq(201)
-            expect(headers['content-type']).to.eq('application/json')
-            expect(body.title).is.eq(sampleForm.title)
-        })
+        cy.createForm()
+            .should(({ status, body, headers }) => {
+                expect(status).to.eq(201)
+                expect(headers['content-type']).to.eq('application/json')
+                expect(body.title).is.eq(sampleForm.title)
+                expect(body.fields.length).is.eq(sampleForm.fields.length)
+                expect(body.type).is.eq(sampleForm.type)
+            })
     })
 
+    it('Update title of page', () => {
+        cy.request({
+            method: 'GET',
+            url: `${apiUrl}forms`,
+            headers: { authorization }
+        }).then(({ status, body }) => {
+            expect(status).to.eq(200)
+            const itemId = body.items[0].id
+            body.items.forEach(item => {
+                if (item[0] === updateForm.id) {
+                    cy.request({
+                        method: 'PUT',
+                        url: `${apiUrl}forms/${itemId}`,
+                        headers: { authorization },
+                        body: { title: updateForm.title }
+                    }).should(({ status, body }) => {
+                        expect(status).to.eq(200)
+                        expect(body.title).is.eq(updateForm.title)
+                    })
+                }
+            })
+        })
+    })
 })

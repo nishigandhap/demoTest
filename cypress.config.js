@@ -11,7 +11,8 @@ module.exports = defineConfig({
   env: {
 
     url: 'https://www.saucedemo.com/',
-    Api_url: "https://api.typeform.com/"
+    Api_url: "https://api.typeform.com/",
+    apiToken: "Enter your token"
 
   },
   chromeWebSecurity: false,

@@ -1,30 +1,39 @@
-// ***********************************************
-// This example commands.js shows you how to
-// create various custom commands and overwrite
-// existing commands.
-//
-// For more comprehensive examples of custom
-// commands please read more here:
-// https://on.cypress.io/custom-commands
-// ***********************************************
-//
-//
-// -- This is a parent command --
-// Cypress.Commands.add('login', (email, password) => { ... })
 
+import sampleForm from '../fixtures/sampleForm.json'
 
 const compareSnapshotCommand = require('cypress-image-diff-js/dist/command');
 compareSnapshotCommand();
 
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add('drag', { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add('dismiss', { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+const apiUrl = `${Cypress.env('Api_url')}`
+const authorization = ` Bearer ${Cypress.env('apiToken')}`
+
+
+Cypress.Commands.add('cleanUpBeforeStart', () => {
+    cy.request({
+        method: 'GET',
+        url: `${apiUrl}forms`,
+        headers: { authorization }
+    }).then(({ status, body }) => {
+        expect(status).to.eq(200)
+        body.items.forEach(item => {
+            if (item.title === sampleForm.title) {
+                cy.request({
+                    method: 'DELETE',
+                    url: `${apiUrl}forms/${item.id}`,
+                    headers: { authorization }
+                }).should(({ status }) => {
+                    expect(status).to.eq(204)
+                })
+            }
+        })
+    })
+})
+
+Cypress.Commands.add('createForm', () => {
+    cy.request({
+        method: 'POST',
+        url: `${apiUrl}forms`,
+        headers: { authorization },
+        body: sampleForm
+    })
+})
