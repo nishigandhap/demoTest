@@ -35,26 +35,10 @@ describe('APi test suite', () => {
     })
 
     it('Update title of page', () => {
-        cy.request({
-            method: 'GET',
-            url: `${apiUrl}forms`,
-            headers: { authorization }
-        }).then(({ status, body }) => {
-            expect(status).to.eq(200)
-            const itemId = body.items[0].id
-            body.items.forEach(item => {
-                if (item[0] === updateForm.id) {
-                    cy.request({
-                        method: 'PUT',
-                        url: `${apiUrl}forms/${itemId}`,
-                        headers: { authorization },
-                        body: { title: updateForm.title }
-                    }).should(({ status, body }) => {
-                        expect(status).to.eq(200)
-                        expect(body.title).is.eq(updateForm.title)
-                    })
-                }
+        cy.updateForm()
+            .should(({ status, body }) => {
+                expect(status).to.eq(200)
+                expect(body.title).is.eq(updateForm.title)
             })
-        })
     })
 })

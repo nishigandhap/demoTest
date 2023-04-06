@@ -1,5 +1,7 @@
 
 import sampleForm from '../fixtures/sampleForm.json'
+import updateForm from '../fixtures/updateTitle.json'
+
 
 const compareSnapshotCommand = require('cypress-image-diff-js/dist/command');
 compareSnapshotCommand();
@@ -35,5 +37,27 @@ Cypress.Commands.add('createForm', () => {
         url: `${apiUrl}forms`,
         headers: { authorization },
         body: sampleForm
+    })
+})
+
+Cypress.Commands.add('updateForm', () => {
+    cy.request({
+        method: 'GET',
+        url: `${apiUrl}forms`,
+        headers: { authorization }
+    }).then(({ status, body }) => {
+        expect(status).to.eq(200)
+        const itemId = body.items[0].id
+        body.items.forEach(item => {
+            if (item[0] === updateForm.id) {
+                cy.request({
+                    method: 'PUT',
+                    url: `${apiUrl}forms/${itemId}`,
+                    headers: { authorization },
+                    body: { title: updateForm.title }
+
+                })
+            }
+        })
     })
 })
