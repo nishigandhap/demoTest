@@ -1,0 +1,47 @@
+{
+    "total_items": 2,
+    "page_count": 1,
+    "items": [
+        {
+            "id": "l6JlAFQn",
+            "type": "quiz",
+            "title": " New form  created via a Cypress test",
+            "last_updated_at": "2023-04-06T14:31:23.515886Z",
+            "created_at": "2023-04-06T14:31:23.515886Z",
+            "settings": {
+                "is_public": true,
+                "is_trial": false
+            },
+            "self": {
+                "href": "https://api.typeform.com/forms/l6JlAFQn"
+            },
+            "theme": {
+                "href": "https://api.typeform.com/themes/qHWOQ7"
+            },
+            "_links": {
+                "display": "https://db0tp73ugaz.typeform.com/to/l6JlAFQn"
+            }
+        },
+        {
+            "id": "vHxSvJWe",
+            "type": "quiz",
+            "title": " New_form  created via a Cypress test",
+            "last_updated_at": "2023-04-06T14:33:22.430218Z",
+            "created_at": "2023-04-06T14:30:01.943932Z",
+            "settings": {
+                "is_public": true,
+                "is_trial": false
+            },
+            "self": {
+                "href": "https://api.typeform.com/forms/vHxSvJWe"
+            },
+            "theme": {
+                "href": "https://api.typeform.com/themes/qHWOQ7"
+            },
+            "_links": {
+                "display": "https://db0tp73ugaz.typeform.com/to/vHxSvJWe"
+            }
+        }
+        
+    ]
+}
