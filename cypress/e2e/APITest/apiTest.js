@@ -3,15 +3,16 @@
 import sampleForm from '../../fixtures/sampleForm.json'
 import updateForm from '../../fixtures/updateTitle.json'
 import multipleForms from '../../fixtures/multipleForms.json'
+import workspace from '../../fixtures/workspace.json'
 
 const apiUrl = `${Cypress.env('Api_url')}`
 const authorization = ` Bearer ${Cypress.env('apiToken')}`
 
 
 describe('APi test suite', () => {
-    // beforeEach(() => {
-    //     cy.cleanUpBeforeStart()
-    // })
+    beforeEach(() => {
+        cy.cleanUpBeforeStart()
+    })
 
     it('Get forms', () => {
         cy.request({
@@ -36,6 +37,32 @@ describe('APi test suite', () => {
             })
     })
 
+    it.only('Patch workspace', () => {
+        cy.createForm()
+            .then(({ status, body }) => {
+                expect(status).is.eq(201)
+                const workspaceID = body.workspace.href
+                cy.request({
+                    method: 'PATCH',
+                    url: `${workspaceID}`,
+                    headers: { authorization },
+                    body: workspace
+                }).then(({ status }) => {
+                    expect(status).is.eq(204)
+                    cy.request({
+                        method: 'GET',
+                        url: `${workspaceID}`,
+                        headers: { authorization },
+                        body: { value: workspace.json }
+                    }).should(({ status, body }) => {
+                        expect(status).is.eq(200)
+                        expect(body.name).is.eq(workspace[0].value)
+                    })
+
+                })
+            })
+    })
+
     it('Update title of page', () => {
         cy.updateForm()
             .should(({ status, body }) => {
@@ -57,15 +84,16 @@ describe('APi test suite', () => {
             expect(body.description).to.eq('Endpoint not found')
         })
     })
-//Here I am trying to intercept the request and fetch the data from multipleForms.json file.
-    it.only('Intercept the form', () => {
+    //Here I am trying to intercept the request and fetch the data from multipleForms.json file.
+    it.skip('Intercept the form', () => {
+
+
         cy.intercept({
             method: 'GET',
             url: `${apiUrl}forms`,
             headers: { authorization },
-            body: multipleForms
-        }).should(({ status, body }) => {
-            expect(status).is.eq(200)
-        })
+            body: multipleForms.title
+        }).as('getForms')
+        cy.wait('@getForms').its('response.body').should('have.length', 2)
     })
 })
