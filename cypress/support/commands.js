@@ -1,6 +1,7 @@
 
 import sampleForm from '../fixtures/sampleForm.json'
 import updateForm from '../fixtures/updateTitle.json'
+import workspace from '../fixtures/workspace.json'
 
 
 const compareSnapshotCommand = require('cypress-image-diff-js/dist/command');
@@ -60,4 +61,27 @@ Cypress.Commands.add('updateForm', () => {
             }
         })
     })
+})
+
+
+Cypress.Commands.add('updateWorkSpace', () => {
+    cy.createForm()
+        .then(({ status, body }) => {
+            expect(status).is.eq(201)
+            const workspaceID = body.workspace.href
+            cy.request({
+                method: 'PATCH',
+                url: `${workspaceID}`,
+                headers: { authorization },
+                body: workspace
+            }).then(({ status }) => {
+                expect(status).is.eq(204)
+                cy.request({
+                    method: 'GET',
+                    url: `${workspaceID}`,
+                    headers: { authorization },
+                    body: { value: workspace.json }
+                })
+            })
+        })
 })

@@ -37,29 +37,11 @@ describe('APi test suite', () => {
             })
     })
 
-    it.only('Patch workspace', () => {
-        cy.createForm()
-            .then(({ status, body }) => {
-                expect(status).is.eq(201)
-                const workspaceID = body.workspace.href
-                cy.request({
-                    method: 'PATCH',
-                    url: `${workspaceID}`,
-                    headers: { authorization },
-                    body: workspace
-                }).then(({ status }) => {
-                    expect(status).is.eq(204)
-                    cy.request({
-                        method: 'GET',
-                        url: `${workspaceID}`,
-                        headers: { authorization },
-                        body: { value: workspace.json }
-                    }).should(({ status, body }) => {
-                        expect(status).is.eq(200)
-                        expect(body.name).is.eq(workspace[0].value)
-                    })
-
-                })
+    it.only('Update workspace text', () => {
+        cy.updateWorkSpace()
+            .should(({ status, body }) => {
+                expect(status).is.eq(200)
+                expect(body.name).is.eq(workspace[0].value)
             })
     })
 
@@ -84,10 +66,9 @@ describe('APi test suite', () => {
             expect(body.description).to.eq('Endpoint not found')
         })
     })
+
     //Here I am trying to intercept the request and fetch the data from multipleForms.json file.
     it.skip('Intercept the form', () => {
-
-
         cy.intercept({
             method: 'GET',
             url: `${apiUrl}forms`,
