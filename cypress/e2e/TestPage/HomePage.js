@@ -7,7 +7,7 @@ import LoginPageModel from "../../PageModel/LoginPageModel"
 const inventoryItem = new PageModel()
 const loginDetails = new LoginPageModel()
 
-describe("My home page suite",  ()=> {
+describe("My home page suite", () => {
 
     beforeEach(function () {
         cy.visit(Cypress.env("url"))
@@ -15,7 +15,7 @@ describe("My home page suite",  ()=> {
         loginDetails.verifyTitleOfPage()
     })
 
-    it('E2E flow from adding product till checkout',  ()=> {
+    it('E2E flow from adding product till checkout', () => {
         inventoryItem.expectInventoryItemName('Sauce Labs Bike Light')
         inventoryItem.addInventoryItemToCart()
         inventoryItem.expectCartLinkPage()
@@ -26,8 +26,11 @@ describe("My home page suite",  ()=> {
         inventoryItem.checkoutCompleteOrder()
     })
 
-    it('Filters products by price in ascending order',  ()=> {
+    it('Filters products by price in ascending order', () => {
         inventoryItem.verifyPriceListIsAscending()
     })
 
+    it('Verify all links are working', () => {
+        inventoryItem.verifyBrokenLink()
+    })
 })

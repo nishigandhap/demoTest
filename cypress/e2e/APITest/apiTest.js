@@ -18,11 +18,10 @@ describe('APi test suite', () => {
         cy.request({
             method: 'GET',
             url: `${apiUrl}forms`,
-            headers: { authorization },
+            headers: { authorization }
         }).should(({ status, body }) => {
             expect(status).to.eq(200)
             expect(body.total_items).is.eq(body.items.length)
-            expect(body)
         })
     })
 
@@ -37,7 +36,7 @@ describe('APi test suite', () => {
             })
     })
 
-    it.only('Update workspace text', () => {
+    it('Update workspace text', () => {
         cy.updateWorkSpace()
             .should(({ status, body }) => {
                 expect(status).is.eq(200)
