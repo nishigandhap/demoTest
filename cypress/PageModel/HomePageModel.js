@@ -26,8 +26,10 @@ class PageModel {
     }
 
     clickCheckOutButton() {
-        cy.get('#checkout').click()
-        cy.get('.title').should('have.text', 'Checkout: Your Information')
+        cy.get('#checkout')
+            .click()
+            .get('.title')
+            .should('have.text', 'Checkout: Your Information');
     }
 
     enterDetailsForCheckoutInformation(firstName, lastName, postCode) {
