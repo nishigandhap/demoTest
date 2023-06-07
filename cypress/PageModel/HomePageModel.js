@@ -5,17 +5,15 @@ class PageModel {
         this.inventoryItemName
     }
 
-    expectInventoryItemName(inventoryItemName) {
-        return cy.get('#inventory_container').each((item) => {
-            const verifyInventoryItemName = item.find('.inventory_item_name').text()
-            expect(verifyInventoryItemName).to.includes(inventoryItemName)
-                ? expect(inventoryItemName).to.exist
-                : expect(inventoryItemName).to.not.exist;
+    addProductItem(...inventoryItemNames) {
+        inventoryItemNames.forEach((inventoryItemName) => {
+            const itemId = `add-to-cart-${inventoryItemName.toLowerCase().replace(/\s/g, '-')}`
+            cy.get('.inventory_item_name')
+                .contains(inventoryItemName)
+                .then(() => {
+                    cy.get(`#${itemId}`).click();
+                })
         })
-    }
-
-    addInventoryItemToCart() {
-        cy.get('#add-to-cart-sauce-labs-bike-light').click();
     }
 
     cartLink() {
@@ -43,13 +41,11 @@ class PageModel {
             .click();
     }
 
-    checkoutOverview(inventoryItemName) {
-        cy.get('.inventory_item_name').each((item) => {
-            if (item.text() === inventoryItemName) {
-                expect(inventoryItemName).to.exist
-            } else if (expect(item).to.not.equal(inventoryItemName)) {
-                expect(inventoryItemName).to.not.exist
-            }
+    checkoutOverview(...inventoryItemNames) {
+        inventoryItemNames.forEach((inventoryItemName) => {
+            cy.get('.inventory_item_name')
+                .contains(inventoryItemName)
+                .should('have.text', inventoryItemName)
         })
     }
 
@@ -76,7 +72,7 @@ class PageModel {
             })
     }
 
-    verifyBrokenLink(){
+    verifyBrokenLink() {
         cy.get('a').each(link => {
             if (link.prop('href')) {
                 cy.request({
@@ -89,6 +85,14 @@ class PageModel {
         })
     }
 
+
+    productUpdateInCart() {
+        cy.get('.shopping_cart_link').each((product) => {
+            cy.wrap(product).invoke('text').then((productValue) => {
+                cy.get('.shopping_cart_badge').invoke('text').should('equal', productValue);
+            })
+        })
+    }
 }
 
 export default PageModel;

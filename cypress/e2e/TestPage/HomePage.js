@@ -16,12 +16,11 @@ describe("My home page suite", () => {
     })
 
     it('E2E flow from adding product till checkout', () => {
-        inventoryItem.expectInventoryItemName('Sauce Labs Bike Light')
-        inventoryItem.addInventoryItemToCart()
+        inventoryItem.addProductItem('Sauce Labs Bike Light', 'Sauce Labs Backpack')
         inventoryItem.expectCartLinkPage()
         inventoryItem.clickCheckOutButton()
-        inventoryItem.enterDetailsForCheckoutInformation('ABC', 'XYZ', '2135')
-        inventoryItem.checkoutOverview('Sauce Labs Bike Light')
+        inventoryItem.enterDetailsForCheckoutInformation('Rob', 'Drake', '2135')
+        inventoryItem.checkoutOverview('Sauce Labs Bike Light', 'Sauce Labs Backpack')
         inventoryItem.clickFinishButton()
         inventoryItem.checkoutCompleteOrder()
     })
@@ -32,5 +31,10 @@ describe("My home page suite", () => {
 
     it('Verify all links are working', () => {
         inventoryItem.verifyBrokenLink()
+    })
+
+    it('Cart updated', () => {
+        inventoryItem.addProductItem('Sauce Labs Bolt T-Shirt', 'Sauce Labs Onesie')
+        inventoryItem.productUpdateInCart()
     })
 })
